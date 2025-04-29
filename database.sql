@@ -33,3 +33,21 @@ CREATE TABLE programs (
   created_at TIMESTAMP NOT NULL,
   update_at TIMESTAMP NOT NULL
 );
+
+CREATE TABLE users (
+  id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  username VARCHAR(255) UNIQUE NOT NULL,
+  email VARCHAR(255) UNIQUE NOT NULL,
+  role VARCHAR(20) NOT NULL CHECK (role IN ('student', 'teacher', 'admin')),
+  password_hash VARCHAR(255) NOT NULL,
+  teaching_group_id INT REFERENCES TeachingGroups (id) ON DELETE SET NULL,
+  created_at TIMESTAMP NOT NULL,
+  update_at TIMESTAMP NOT NULL,
+);
+
+CREATE TABLE TeachingGroups (
+  id SERIAL PRIMARY KEY,
+  slug VARCHAR(50) UNIQUE NOT NULL,
+  created_at TIMESTAMP NOT NULL,
+  updated_at TIMESTAMP NOT NULL
+);
