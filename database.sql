@@ -45,9 +45,52 @@ CREATE TABLE users (
   update_at TIMESTAMP NOT NULL,
 );
 
-CREATE TABLE TeachingGroups (
+CREATE TABLE teachingGroups (
   id SERIAL PRIMARY KEY,
   slug VARCHAR(50) UNIQUE NOT NULL,
   created_at TIMESTAMP NOT NULL,
   updated_at TIMESTAMP NOT NULL
+);
+
+CREATE TABLE enrollments (
+  id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  user_id INT REFERENCES users(id),
+  program_id INT REFERENCES programs(id),
+  status VARCHAR(20) NOT NULL CHECK (status IN ('active', 'pending', 'cancelled', 'completed')),
+  created_at TIMESTAMP NOT NULL,
+  updated_at TIMESTAMP NOT NULL,
+  UNIQUE (user_id, program_id)  -- ЧТОБ НЕ ПОДПИСЫВАЛИСЬ ДВАЖДЫ
+);
+
+CREATE TABLE payments (
+  id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  enrollment_id INT REFERENCES enrollments(id),
+  amount DECIMAL(10, 2) NOT NULL CHECK (amount >= 0), -- 10 цифр, 2 знака после запятой
+  status VARCHAR(20) NOT NULL CHECK (status IN ('pending', 'paid', 'failed', 'refunded')),
+  payment_date TIMESTAMP NOT NULL,
+  created_at TIMESTAMP NOT NULL,
+  updated_at TIMESTAMP NOT NULL
+);
+
+CREATE TABLE programCompletions (
+  id SERIAL PRIMARY KEY,
+  user_id INT REFERENCES users(id),
+  program_id INT REFERENCES programs(id),
+  status VARCHAR(20) NOT NULL CHECK (status IN ('active', 'completed', 'pending', 'cancelled')),
+  start_date TIMESTAMP NOT NULL,
+  end_date TIMESTAMP NOT NULL,
+  created_at TIMESTAMP NOT NULL,
+  updated_at TIMESTAMP NOT NULL,
+  UNIQUE (user_id, program_id)  -- опять убраем дубликаты таким образом
+);
+
+CREATE TABLE certificates (
+  id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  user_id INT REFERENCES users(id),
+  program_id INT REFERENCES programs(id),
+  url TEXT NOT NULL,
+  issue_date TIMESTAMP NOT NULL,
+  created_at TIMESTAMP NOT NULL,
+  updated_at TIMESTAMP NOT NULL,
+  UNIQUE (user_id, program_id)
 );
