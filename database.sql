@@ -1,4 +1,4 @@
-CREATE TABLE lessons (
+CREATE TABLE Lessons (
   id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   name VARCHAR(255) NOT NULL,
   content TEXT NOT NULL,
@@ -9,7 +9,7 @@ CREATE TABLE lessons (
   course_id INT NOT NULL REFERENCES courses(id) 
 );
 
-CREATE TABLE courses (
+CREATE TABLE Courses (
   id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   name VARCHAR(255) NOT NULL,
   description TEXT NOT NULL,
@@ -17,7 +17,7 @@ CREATE TABLE courses (
   updated_at TIMESTAMP NOT NULL
 );
 
-CREATE TABLE modules (
+CREATE TABLE Modules (
   id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   name VARCHAR(255) NOT NULL,
   description TEXT NOT NULL,
@@ -25,7 +25,7 @@ CREATE TABLE modules (
   updated_at TIMESTAMP NOT NULL
 );
 
-CREATE TABLE programs (
+CREATE TABLE Programs (
   id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   name VARCHAR(255) NOT NULL,
   price INT NOT NULL,
@@ -34,7 +34,7 @@ CREATE TABLE programs (
   updated_at TIMESTAMP NOT NULL
 );
 
-CREATE TABLE users (
+CREATE TABLE Users (
   id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   username VARCHAR(255) UNIQUE NOT NULL,
   email VARCHAR(255) UNIQUE NOT NULL,
@@ -45,14 +45,14 @@ CREATE TABLE users (
   updated_at TIMESTAMP NOT NULL
 );
 
-CREATE TABLE teachingGroups (
+CREATE TABLE Teaching_groups (
   id SERIAL PRIMARY KEY,
   slug VARCHAR(50) UNIQUE NOT NULL,
   created_at TIMESTAMP NOT NULL,
   updated_at TIMESTAMP NOT NULL
 );
 
-CREATE TABLE enrollments (
+CREATE TABLE Enrollments (
   id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   user_id INT NOT NULL REFERENCES users(id),
   program_id INT NOT NULL REFERENCES programs(id),
@@ -62,7 +62,7 @@ CREATE TABLE enrollments (
   UNIQUE (user_id, program_id)
 );
 
-CREATE TABLE payments (
+CREATE TABLE Payments (
   id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   enrollment_id INT NOT NULL REFERENCES enrollments(id),
   amount DECIMAL(10, 2) NOT NULL CHECK (amount >= 0),
@@ -72,8 +72,8 @@ CREATE TABLE payments (
   updated_at TIMESTAMP NOT NULL
 );
 
-CREATE TABLE programCompletions (
-  id SERIAL PRIMARY KEY,
+CREATE TABLE Program_completions (
+  id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   user_id INT NOT NULL REFERENCES users(id),
   program_id INT NOT NULL REFERENCES programs(id),
   status VARCHAR(20) NOT NULL CHECK (status IN ('active', 'completed', 'pending', 'cancelled')),
@@ -84,7 +84,7 @@ CREATE TABLE programCompletions (
   UNIQUE (user_id, program_id)
 );
 
-CREATE TABLE certificates (
+CREATE TABLE Certificates (
   id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   user_id INT NOT NULL REFERENCES users(id),
   program_id INT NOT NULL REFERENCES programs(id),
@@ -95,7 +95,7 @@ CREATE TABLE certificates (
   UNIQUE (user_id, program_id)
 );
 
-CREATE TABLE quizzes (
+CREATE TABLE Quizzes (
   id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   lesson_id INT NOT NULL REFERENCES lessons(id),
   title VARCHAR(255) NOT NULL,
@@ -104,7 +104,7 @@ CREATE TABLE quizzes (
   updated_at TIMESTAMP NOT NULL
 );
 
-CREATE TABLE exercises (
+CREATE TABLE Exercises (
   id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   lesson_id INT NOT NULL REFERENCES lessons(id),
   title VARCHAR(255) NOT NULL,
@@ -113,7 +113,7 @@ CREATE TABLE exercises (
   updated_at TIMESTAMP NOT NULL
 );
 
-CREATE TABLE discussions (
+CREATE TABLE Discussions (
   id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   lesson_id INT NOT NULL REFERENCES lessons(id),
   content TEXT NOT NULL,
@@ -123,7 +123,7 @@ CREATE TABLE discussions (
   updated_at TIMESTAMP NOT NULL
 );
 
-CREATE TABLE blogPosts (
+CREATE TABLE Blog_posts (
   id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   user_id INT NOT NULL REFERENCES users(id),
   title VARCHAR(255) NOT NULL,
