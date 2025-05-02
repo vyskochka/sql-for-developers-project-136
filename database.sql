@@ -113,4 +113,25 @@ CREATE TABLE exercises (
   updated_at TIMESTAMP NOT NULL
 );
 
+CREATE TABLE discussions (
+  id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  lesson_id INT NOT NULL REFERENCES lessons(id),
+  content TEXT NOT NULL,
+  author_id INTEGER NOT NULL REFERENCES users(id),
+  parent_id INTEGER REFERENCES discussions(id), -- для древовидных комментариев
+  created_at TIMESTAMP NOT NULL,
+  updated_at TIMESTAMP NOT NULL
+);
+
+CREATE TABLE blogPosts (
+  id int PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  user_id INT NOT NULL REFERENCES users(id),
+  title VARCHAR(255) NOT NULL,
+  content TEXT NOT NULL,
+  status VARCHAR(20) NOT NULL CHECK (status IN ('created', 'in_moderation', 'published', 'archived')),
+  slug TEXT UNIQUE NOT NULL,
+  created_at TIMESTAMP NOT NULL,
+  published_at TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL
+);
 
