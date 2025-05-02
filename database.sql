@@ -5,7 +5,7 @@ CREATE TABLE lessons (
   video_link TEXT,
   position INT NOT NULL,
   created_at TIMESTAMP NOT NULL,
-  update_at TIMESTAMP NOT NULL,
+  updated_at TIMESTAMP NOT NULL,
   course_link TEXT NOT NULL
 );
 
@@ -14,7 +14,7 @@ CREATE TABLE courses (
   name VARCHAR(255) NOT NULL,
   description TEXT NOT NULL,
   created_at TIMESTAMP NOT NULL,
-  update_at TIMESTAMP NOT NULL
+  updated_at TIMESTAMP NOT NULL
 );
 
 CREATE TABLE modules (
@@ -22,7 +22,7 @@ CREATE TABLE modules (
   name VARCHAR(255) NOT NULL,
   description TEXT NOT NULL,
   created_at TIMESTAMP NOT NULL,
-  update_at TIMESTAMP NOT NULL
+  updated_at TIMESTAMP NOT NULL
 );
 
 CREATE TABLE programs (
@@ -31,7 +31,7 @@ CREATE TABLE programs (
   price INT NOT NULL,
   program_type VARCHAR(255) NOT NULL,
   created_at TIMESTAMP NOT NULL,
-  update_at TIMESTAMP NOT NULL
+  updated_at TIMESTAMP NOT NULL
 );
 
 CREATE TABLE users (
@@ -40,9 +40,9 @@ CREATE TABLE users (
   email VARCHAR(255) UNIQUE NOT NULL,
   role VARCHAR(20) NOT NULL CHECK (role IN ('student', 'teacher', 'admin')),
   password_hash VARCHAR(255) NOT NULL,
-  teaching_group_id INT REFERENCES TeachingGroups (id) ON DELETE SET NULL,
+  teaching_group_id INT REFERENCES teachingGroups (id) ON DELETE SET NULL,
   created_at TIMESTAMP NOT NULL,
-  update_at TIMESTAMP NOT NULL,
+  updated_at TIMESTAMP NOT NULL,
 );
 
 CREATE TABLE teachingGroups (
