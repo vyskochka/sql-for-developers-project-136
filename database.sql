@@ -94,3 +94,23 @@ CREATE TABLE certificates (
   updated_at TIMESTAMP NOT NULL,
   UNIQUE (user_id, program_id)
 );
+
+CREATE TABLE quizzes (
+  id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  lesson_id INT NOT NULL REFERENCES lessons(id),
+  title VARCHAR(255) NOT NULL,
+  content JSONB NOT NULL, 
+  created_at TIMESTAMP NOT NULL,
+  updated_at TIMESTAMP NOT NULL
+);
+
+CREATE TABLE exercises (
+  id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  lesson_id INT NOT NULL REFERENCES lessons(id),
+  title VARCHAR(255) NOT NULL,
+  url TEXT NOT NULL,
+  created_at TIMESTAMP NOT NULL,
+  updated_at TIMESTAMP NOT NULL
+);
+
+
